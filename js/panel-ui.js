@@ -814,8 +814,8 @@ var fillDetails = function(){
     $('#poi-type').val(mapLabelInfo.type);
     $('#poi-bulding-id').val(buildingId);
     $('.poi-floor-id[data-bldgid = "'+mapLabelInfo.buildingId+'"]').val(mapLabelInfo.floorId);
-    $('#poi-label-latitude').val(parseFloat(toFixed(mapLabelInfo.latitude, 4)));
-    $('#poi-label-longitude').val(parseFloat(toFixed(mapLabelInfo.longitude, 4)));
+    $('#poi-label-latitude').val(parseFloat(toFixed(mapLabelInfo.latitude, 8)));
+    $('#poi-label-longitude').val(parseFloat(toFixed(mapLabelInfo.longitude, 8)));
     $('#poi-tooltips-toggle').prop('checked', mapLabelInfo.showToolTip);
     $('#poi-tooltip-title').val(mapLabelInfo.tooltipTitle);
     $('#poi-tooltip-body').val(mapLabelInfo.tooltipBody);
@@ -1707,7 +1707,7 @@ var postJsonToApi = function() {
 		crossDomain : true,
 		//data: JSON.stringify(obj),
 		data: {
-			id: ambiarc.poiList[currentLabelId].mapLabelId,
+			id: ambiarc.poiList[currentLabelId].recordId,
 			info: ambiarc.poiList[currentLabelId],
 			message: 'hello from front end',
 			token: document.token

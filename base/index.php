@@ -57,8 +57,8 @@
     </script>
 
     <script src="../js/BootstrapMenu.min.js"></script>
-    <script src="../js/panel-ui.js?time=<?php echo time() ?>"></script>
-    <script src="../js/move-controls-ui.js "></script>
+    <script src="../js/panel-ui.js?nc=<?php echo time() ?>"></script>
+    <script src="../js/move-controls-ui.js?nc=<?php echo time() ?>""></script>
 
     <style>
 

@@ -1,0 +1,10 @@
+AuthType Basic
+AuthBasicProvider ldap
+#AuthzLDAPAuthoritative on
+AuthName "Password protected. Enter your AD username and password."
+#AuthLDAPURL "ldap://ldap.pratt.edu:389/ou=users,dc=pratt,dc=edu?sAMAccountName?sub?(ObjectClass=*)"
+AuthLDAPURL ldap://ldap.pratt.edu:389/ou=users,dc=pratt,dc=edu?cn?sub
+AuthLDAPBindDN "cn=overlord,dc=pratt,dc=edu"
+AuthLDAPBindPassword "buzzlight"
+#Require valid-user
+Require ldap-attribute ou="Interactive Services"
