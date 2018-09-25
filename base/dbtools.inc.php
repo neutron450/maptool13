@@ -32,16 +32,24 @@ class DbTools {
 	public function createToken() {
 
 		try {
-			//$token = bin2hex(random_bytes(15));
-			@$token = bin2hex(mcrypt_create_iv(22, MCRYPT_DEV_URANDOM));
-			$sql = "INSERT INTO tokens (token) VALUES ('$token')";
+
+			$pver = phpversion();
+     		if (strpos('_'.$pver, '7.') !== false) {
+     			$token = bin2hex(random_bytes(15));
+     		} else {
+				$token = bin2hex(mcrypt_create_iv(22, MCRYPT_DEV_URANDOM));
+			}
+
+			$sql = "INSERT INTO `tokens` (`id`, `token`, `create_date`) VALUES (NULL, '".$token."', CURRENT_TIMESTAMP)";
 			$this->dbh->exec($sql);
 			//echo 'setting token : '.$_SESSION['token'] = $token;
 			$_SESSION['token'] = $token;
 		} catch(PDOException $e) {
 			echo $sql . "<br>" . $e->getMessage();
+			return false;
 		}
 
+		return true;
 	}
 
 	public function checkToken($token) {
@@ -62,6 +70,49 @@ class DbTools {
 			}
 			return false;
 
+		} catch(PDOException $e) {
+			echo $sql . "<br>" . $e->getMessage();
+		}
+
+	}
+
+	public function createBuildingAndFloorMenu() {
+
+		try {
+			$sql = "
+				select * from facilities
+				group by gk_floor_id
+				order by bldg_name asc, gk_floor_id asc
+				";
+			$stmt = $this->dbh->prepare($sql);
+			$stmt->execute();
+			$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			if ($rows[0]['id']) {
+				foreach($rows as $field=>$record) {
+
+					if (trim($record['bldg_name']) == 'HIGGINS') {
+						$record['bldg_name'] = 'Higgins Hall';
+					}
+
+					if (trim($record['bldg_name']) == 'STEUBEN') {
+						$record['bldg_name'] = 'Higgins Hall';
+					}
+
+					$record['bldg_name']	= ucwords(strtolower(trim($record['bldg_name'])));
+					$record['room_name']	= ucwords(strtolower(trim($record['room_name'])));
+					$record['floor']		= strtolower(trim($record['floor']));
+
+					$menu[$record['gk_bldg_id'].$record['gk_floor_id']] = "<option class=\"bldg-opts\" value=\"".$record['gk_floor_id']."\">".$record['bldg_name']." ::: ".$record['floor']."</option>";
+
+
+				}
+
+				//echo json_encode($map);
+				echo $out = implode('',$menu);
+			}
+
+			//return false;
 		} catch(PDOException $e) {
 			echo $sql . "<br>" . $e->getMessage();
 		}

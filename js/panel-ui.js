@@ -1657,14 +1657,15 @@ var pullDataFromApi = function () {
 	// alert(building);
 
 	$.ajax({
-		//url: "http://facilities/facilities/fetch?hash="+hash,
+		//url: "http://local.facilities.com/facilities/get",
 		url: "https://map.pratt.edu/facilities/web/facilities/get",
 		data: {
 			token: document.token,
 			webapp: 'manage',
 			limit: '9999',
 			//building: $.urlParam('building')
-			building: building
+			//building: building
+			floor: floor
 		},
 		type: "GET",
 		//beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},
@@ -1702,7 +1703,7 @@ var postJsonToApi = function() {
 	$.ajax({
 		type: "POST",
 		//dataType: 'json',
-		//url: "http://facilities/facilities/push",
+		//url: "http://local.facilities.com/facilities/put",
 		url: "https://map.pratt.edu/facilities/web/facilities/put",
 		crossDomain : true,
 		//data: JSON.stringify(obj),

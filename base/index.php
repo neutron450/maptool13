@@ -84,24 +84,9 @@
         <div class="separate-block row buttons_row">
 		  <select class="menu-buildings">
 			<option class="bldg-opts" value="">:: Select Building ::</option>
-			<option class="bldg-opts" value="ARC">ARC :: ACTIVITY RES CTR</option>
-			<option class="bldg-opts" value="CHEM">CHEM :: CHEMISTRY</option>
-			<option class="bldg-opts" value="DEK">DEK :: DEKALB HALL</option>
-			<option class="bldg-opts" value="PS">PS :: PRATT STUDIOS</option>
-			<option class="bldg-opts" value="STEU">STEU :: STEUBEN</option>
-			<option class="bldg-opts" value="EAST">EAST :: EAST HALL</option>
-			<option class="bldg-opts" value="ENGR">ENGR :: ENGINEERING</option>
-			<option class="bldg-opts" value="FLSH">FLSH :: FLUSHING</option>
-			<option class="bldg-opts" value="ISC">ISC :: INFORMATION SCIENCE CENTER</option>
-			<option class="bldg-opts" value="HH">HH :: HIGGINS</option>
-			<option class="bldg-opts" value="LIB">LIB :: LIBRARY</option>
-			<option class="bldg-opts" value="MACH">MACH :: MACHINERY</option>
-			<option class="bldg-opts" value="MAIN">MAIN :: MAIN BUILDING</option>
-			<option class="bldg-opts" value="MH">MH :: MYRTLE HALL</option>
-			<option class="bldg-opts" value="NH">NH :: NORTH HALL</option>
-			<option class="bldg-opts" value="W14">W14 :: PRATT MANHATTAN CENTER</option>
-			<option class="bldg-opts" value="W18">W18 :: 18TH ST.</option>
-			<option class="bldg-opts" value="SH">SH :: SOUTH HALL</option>
+
+			<?php echo $obj->createBuildingAndFloorMenu(); ?>
+
 		  </select>
 		</div>
 
@@ -791,16 +776,24 @@
 		// 	window.location.href = url;
 
 		destroyAllLabels();
-		window.building = this.value;
+		//window.building = this.value;
+		window.floor = this.value;
 		pullDataFromApi();
 
 	});
 
 	$(document).ready(function() {
+
+		// 	$('.bldg-opts').attr('selected',false);
+		// 	var building = $.urlParam('building');
+		// 	if (building > '1') {
+		// 		$('.menu-buildings option[value='+building+']').attr('selected',true);
+		// 	}
+
 		$('.bldg-opts').attr('selected',false);
-		var building = $.urlParam('building');
-		if (building > '1') {
-			$('.menu-buildings option[value='+building+']').attr('selected',true);
+		var floor = $.urlParam('floor');
+		if (floor > '1') {
+			$('.menu-buildings option[value='+floor+']').attr('selected',true);
 		}
 
 		setInterval(getLocation, 1000);
