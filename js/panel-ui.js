@@ -1185,8 +1185,14 @@ var valueToString = function(){
 
 var cameraCompletedHandler = function(event){
 
-    console.log("camera completed handler!!");
+    console.log("cameraCompletedHandler");
     console.log(event);
+
+	if (typeof currentBuildingId == 'undefined' || typeof currentFloorId == 'undefined') {
+	    alert("cameraCompletedHandler");
+    	alert(currentBuildingId+' :: '+currentFloorId);
+		alert(event.detail);
+    }
 
     if(currentFloorId == null){
         $('#bldg-floor-select').val('Exterior');
@@ -1358,9 +1364,13 @@ var toggleSaveButton = function(){
 
 var destroyAllLabels = function(){
 
-     $.each(ambiarc.poiList, function(MapLabelID, a){
-         ambiarc.destroyMapLabel(parseInt(MapLabelID));
-     });
+	$.each(ambiarc.poiList, function(MapLabelID, a){
+		ambiarc.destroyMapLabel(parseInt(MapLabelID));
+	});
+
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	console.log('poi list destroyed');
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 
      ambiarc.poiList = {};
      poisInScene = [];
@@ -1451,6 +1461,10 @@ var showIconsPanel = function(){
 };
 
 var showPoiDetails = function(){
+
+	console.log('showPoiDetails');
+	console.log(currentLabelId);
+	console.log(ambiarc.poiList[currentLabelId]);
 
     ambiarc.updateMapLabel(currentLabelId, ambiarc.poiList[currentLabelId].type, ambiarc.poiList[currentLabelId]);
 
@@ -1673,6 +1687,9 @@ var pullDataFromApi = function () {
 			try {
 				console.log(ret);
 				fillGeoData(ret);
+				console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+				console.log('pull data from api');
+				console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 			} catch(e) {
 				console.log(e);
 				alert('fill-geo failed');
@@ -1715,6 +1732,7 @@ var postJsonToApi = function() {
 		}
 	})
     .done(function( ret ) {
+		alert('post data to api');
     	console.log('post begin');
         console.log(ret);
         console.log('post end');
@@ -1733,21 +1751,20 @@ function sleep(ms) {
 
 async function fillGeoData(properties){
 
-    $.each(properties.features, async function(i, feature){
-        var mapLabelInfo = feature.properties;
-        mapLabelInfo.longitude = parseFloat(feature.geometry.coordinates[0]);
-        mapLabelInfo.latitude = parseFloat(feature.geometry.coordinates[1]);
+	$.each(properties.features, async function(i, feature){
+		var mapLabelInfo = feature.properties;
+		mapLabelInfo.longitude = parseFloat(feature.geometry.coordinates[0]);
+		mapLabelInfo.latitude = parseFloat(feature.geometry.coordinates[1]);
 
-        $.each(feature.user_properties, function(prop, val){
-                mapLabelInfo[prop] = val;
-        });
-         await sleep(100);
+		$.each(feature.user_properties, function(prop, val){
+			mapLabelInfo[prop] = val;
+		});
+		await sleep(100);
 
-        ambiarc.createMapLabel(mapLabelInfo.type, mapLabelInfo,(labelId) => {
-            mapLabelCreatedCallback(labelId, mapLabelInfo.label, mapLabelInfo);
-
-        });
-    });
+		ambiarc.createMapLabel(mapLabelInfo.type, mapLabelInfo,(labelId) => {
+			mapLabelCreatedCallback(labelId, mapLabelInfo.label, mapLabelInfo);
+		});
+	});
 };
 
 // function for setting number of decimal places (longitude and latitude)

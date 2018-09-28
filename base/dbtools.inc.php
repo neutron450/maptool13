@@ -103,7 +103,7 @@ class DbTools {
 					$record['room_name']	= ucwords(strtolower(trim($record['room_name'])));
 					$record['floor']		= strtolower(trim($record['floor']));
 
-					$menu[$record['gk_bldg_id'].$record['gk_floor_id']] = "<option class=\"bldg-opts\" value=\"".$record['gk_floor_id']."\">".$record['bldg_name']." ::: ".$record['floor']."</option>";
+					$menu[$record['gk_bldg_id'].$record['gk_floor_id']] = "<option class=\"bldg-opts\" data-bldg=\"".$record['gk_bldg_id']."\" value=\"".$record['gk_bldg_id']."@".$record['gk_floor_id']."\">".$record['bldg_name']." ".$record['gk_bldg_id']." ::: ".$record['floor']." ".$record['gk_floor_id']." </option>";
 
 
 				}

@@ -1,19 +1,8 @@
 <?php
-
 	date_default_timezone_set('America/New_York');
-
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
-	//ini_set("log_errors", 1);
-	//ini_set("error_log", "/mnt/isilon/hosted_sites/home/map/web/map_manager/error.log");
-	//ini_set("error_log", "/Users/iancampbell/Sites/map_manager/error.log");
-	//error_log( " - - - - - - - - - - - - - - - - " );
-
-	//echo 'map manager';
-	//die();
-
 	session_start();
-	//echo __DIR__;
 	include_once('dbtools.inc.php');
 	$obj = new DbTools;
 	if (!@$_SESSION['token']) {
@@ -25,7 +14,6 @@
 			echo 'no token';
 		}
 	}
-	//die();
 ?>
 
 <html>
@@ -76,7 +64,6 @@
 
 <div id="show_geoloc">geo location</div>
 
-
 <div id="main_container" class="container-fluid" style="z-index:100;">
 
     <div class="panel-section invisible">
@@ -89,7 +76,6 @@
 
 		  </select>
 		</div>
-
 
         <!--<div class="separate-block row buttons_row">
             <div id="import-btn" class="col-sm imp-exp-btn">
@@ -115,8 +101,6 @@
                 <select id="bldg-floor-select"></select>
             </div>
         </div>
-
-
 
         <!-- main panel -->
         <div id="main-panel" class="separate-block row poi-list-panel" style="pointer-events: all">
@@ -168,7 +152,6 @@
             </div>
 
         </div>
-
 
         <!--colors panel-->
         <div class="row panel-body-row colors-panel invisible" style="pointer-events: all">
@@ -327,7 +310,6 @@
                 </ul>
             </div>
         </div>
-
 
         <!-- poi details panel -->
         <div id="details-panel" class="separate-block row poi-details-panel invisible" style="pointer-events: all">
@@ -515,7 +497,6 @@
         <!-- icons panel -->
         <div id="icons-panel" class="separate-block row icons-list-panel invisible" style="pointer-events: all">
 
-
             <div id="icons-list-header" class="row">
 
                 <div class="col-sm-6">
@@ -628,7 +609,6 @@
     </div>
 </div>
 
-
 <!-- points of interest list element template -->
 <div id="listPoiTemplate">
     <li class="poi-list-item row">
@@ -644,7 +624,6 @@
         </div>
     </li>
 </div>
-
 
 <div id="pairKeyValueTemplate">
     <li class="row pair-key-row">
@@ -663,7 +642,6 @@
         </div>
     </li>
 </div>
-
 
 <!--<iframe src="map.html" id="ambiarcIframe">-->
     <!--Your browser doesn't support iframes-->
@@ -685,7 +663,6 @@
         </ul>
     </div>
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -709,7 +686,6 @@
         </div>
     </div>
 </div>
-
 
 </body>
 
@@ -770,16 +746,21 @@
 
     $(document).on("change", "select.menu-buildings", function(e){
 
-		// 	var url = window.location.href;
-		// 	url = url.split('?')[0];
-		// 	url += '?building='+this.value
-		// 	window.location.href = url;
+    	showPoiList();
 
-		destroyAllLabels();
-		//window.building = this.value;
-		window.floor = this.value;
-		pullDataFromApi();
+		var ambiarc = $("#ambiarcIframe")[0].contentWindow.Ambiarc;
 
+		ambiarc.exitBuilding();
+
+		var locArr = this.value.split('@');
+		ambiarc.focusOnFloor(locArr[0], locArr[1], 300);
+
+		setTimeout(function(){
+			destroyAllLabels();
+			//window.building = this.value;
+			window.floor = locArr[1];
+			pullDataFromApi();
+		},1);
 	});
 
 	$(document).ready(function() {
@@ -821,7 +802,6 @@
 		//$('#poi-label-longitude').blur();
 
 	});
-
 
 	var x = document.getElementById("show_geoloc");
 	function getLocation() {
