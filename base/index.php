@@ -90,7 +90,7 @@
             <div id="new-scene-btn" class="col-sm imp-exp-btn" data-toggle="modal" data-target="#exampleModal">
                 New Scene
             </div>
-        </div>-->
+        </div>
 
         <div class="separate-block row buttons_row">
             <div class="col-sm imp-exp-btn map_view">
@@ -100,7 +100,7 @@
             <div class="col-sm imp-exp-btn select_wrapper" style="pointer-events: all">
                 <select id="bldg-floor-select"></select>
             </div>
-        </div>
+        </div>-->
 
         <!-- main panel -->
         <div id="main-panel" class="separate-block row poi-list-panel" style="pointer-events: all">
@@ -744,7 +744,7 @@
 		}
 	}
 
-    $(document).on("change", "select.menu-buildings", function(e){
+    $(document).on("change", "select.menu-buildingsZZZ", function(e){
 
     	showPoiList();
 

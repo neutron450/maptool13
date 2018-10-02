@@ -119,18 +119,34 @@ $(document).ready(function() {
 
     //PANEL ELEMENTS HANDLERS
 
-    $('#bldg-floor-select').on('change', function(){
+    ///$('#bldg-floor-select').on('change', function(){
+    $(document).on("change", "select.menu-buildings", function(e){
 
         if($(this).val() == 'Exterior'){
             ambiarc.exitBuilding();
             return;
         }
 
-        var parsedValue = $(this).val().split('::');
+        ///var parsedValue = $(this).val().split('::');
+        var parsedValue = this.value.split('@');
+
         var buildingId = parsedValue[0];
         var floorId = parsedValue[1];
 
         ambiarc.focusOnFloor(buildingId, floorId, 300);
+
+
+
+        /// pull points from api
+        setTimeout(function(){
+			destroyAllLabels();
+			//window.building = this.value;
+			window.floor = floorId;
+			pullDataFromApi();
+		},1);
+
+
+
     });
 
 
@@ -541,6 +557,9 @@ var onRightMouseDown = function(event) {
 
 var autoSelectFloor = function(){
 
+	console.log('autoSelectFloor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	console.log(event.detail);
+
     if(mainBldgID){
         ambiarc.getAllFloors(mainBldgID, function(floors){
             currentFloorId = floors[0].id;
@@ -554,6 +573,9 @@ var autoSelectFloor = function(){
 
 // closes the floor menu when a floor was selected
 var onFloorSelected = function(event) {
+
+	console.log('onFloorSelected ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	console.log(event.detail);
 
     var floorInfo = event.detail;
     currentFloorId = floorInfo.floorId;
@@ -572,6 +594,9 @@ var onFloorSelected = function(event) {
 
 // expands the floor menu when the map enter Floor Selector mode
 var onEnteredFloorSelector = function(event) {
+
+	console.log('onEnteredFloorSelector ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	console.log(event.detail);
 
     var buildingId = event.detail;
     currentBuildingId = buildingId;
@@ -598,8 +623,16 @@ var onExitedFloorSelector = function(event) {
 
 // closes the floor menu when a floor selector mode was exited
 var onFloorSelectorFocusChanged = function(event) {
-    console.log("Ambiarc received a FloorSelectorFocusChanged event with a building id of: " + event.detail.buildingId +
-        " and a new floorId of " + event.detail.newFloorId + " coming from a floor with the id of " + event.detail.oldFloorId);
+
+	/// fixing typo here
+	event.detail.newFloorId = event.detail.newFloodId;
+
+	console.log('onFloorSelectorFocusChanged ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	console.log(event.detail);
+
+    // console.log("Ambiarc received a FloorSelectorFocusChanged event with a building id of: " + event.detail.buildingId +
+    //    " and a new floorId of " + event.detail.newFloorId + " coming from a floor with the id of " + event.detail.oldFloorId);
+
 };
 
 var mapLabelClickHandler = function(event) {
@@ -729,9 +762,18 @@ var addElementToPoiList = function(mapLabelId, mapLabelName, mapLabelInfo, times
         fillDetails(mapLabelInfo);
 
         if($(this).find('.list-poi-floor').html() == ''){
+
+        	console.log('100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 ');
+        	console.log('floor not found');
+
             ambiarc.focusOnMapLabel(mapLabelId, 100);
         }
         else {
+
+        	console.log('200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 ');
+        	console.log($(this).find('.list-poi-floor').html());
+        	//alert('stop');
+
             ambiarc.focusOnMapLabel(mapLabelId, 200);
         }
 
@@ -911,7 +953,12 @@ var fillBuildingsList = function(){
         currentBuildingId = buildings[0];
         currentFloorId = null;
 
+        console.log(buildings);
+
         $.each(buildings, function(id, bldgValue){
+
+        	//console.log('getAllBuildings #######################################################');
+        	//console.log(bldgValue);
 
             var bldgListItem = document.createElement('option');
                 bldgListItem.clasName = 'bldg-list-item';
@@ -1185,8 +1232,10 @@ var valueToString = function(){
 
 var cameraCompletedHandler = function(event){
 
-    console.log("cameraCompletedHandler");
+    console.log("cameraCompletedHandler ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     console.log(event);
+
+    //alert(currentBuildingId + ' -- ' + currentFloorId);
 
 	if (typeof currentBuildingId == 'undefined' || typeof currentFloorId == 'undefined') {
 	    alert("cameraCompletedHandler");

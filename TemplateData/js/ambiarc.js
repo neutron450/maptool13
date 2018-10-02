@@ -19,7 +19,13 @@
       AmbiarcAppInitialized: 'AmbiarcAppInitialized',
       RightMouseDown: 'RightMouseDown',
       StartedLoadingMap: 'StartedLoadingMap',
-      FinishedLoadingMap: 'FinishedLoadingMap'
+      FinishedLoadingMap: 'FinishedLoadingMap',
+      StartedEnteringOverheadCamera: 'StartedEnteringOverheadCamera',
+      CompletedEnteringOverheadCamera: 'CompletedEnteringOverheadCamera',
+      StartedExitingOverheadCamera: 'StartedExitingOverheadCamera',
+      CompletedExitingOverheadCamera: 'CompletedExitingOverheadCamera',
+      FocusAndZoomTransitionStarted: 'FocusAndZoomTransitionStarted',
+      FocusAndZoomTransitionCompleted: 'FocusAndZoomTransitionCompleted'
     };
     this.mapLabel = {
       Icon: "Icon",
@@ -39,7 +45,6 @@
       gameInstance.SendMessage('Ambiarc', 'GetMapPositionAtCursor', coordType);
     };
     this.createMapLabel = function(mapLabelType, maplLabelInfo, idCallback) {
-
       this.messageQueue.push(idCallback);
       var json = JSON.stringify({
         mapLabelType: mapLabelType,
@@ -47,6 +52,25 @@
       });
       gameInstance.SendMessage('Ambiarc', 'CreateMapLabel', json);
     };
+        this.getBuildingLabelID = function(buildingId, cb) {
+      this.messageQueue.push(cb);
+      gameInstance.SendMessage('Ambiarc', 'GetBuildingLabelID', buildingId);
+    };
+
+    this.getCanvasPositionAtWorldPosition = function(latitude, longitude, callback) {
+      this.messageQueue.push(callback);
+      var json = JSON.stringify({
+        latitude: latitude,
+        longitude: longitude
+      });
+      gameInstance.SendMessage('Ambiarc', 'GetScreenPositionAtPoint', json);
+    };
+
+    this.getCurrentNormalizedZoomLevel = function(callback) {
+      this.messageQueue.push(callback);
+      gameInstance.SendMessage('Ambiarc', 'GetCurrentNormalizedZoomLevel');
+    };
+
     this.updateMapLabel = function(mapLabelId, mapLabelType, mapLabelInfo) {
       var json = JSON.stringify({
         mapLabelId: mapLabelId,
@@ -54,6 +78,26 @@
         mapLabelInfo: mapLabelInfo
       });
       gameInstance.SendMessage('Ambiarc', 'UpdateMapLabel', json);
+    };
+    this.getDirections = function(startingBuilding, startingLevel, startingLatitude, startingLongitude, endingBuilding, endingLevel, endingLatitude, endingLongitude, cb) {
+      this.messageQueue.push(cb);
+      var json = JSON.stringify({
+        startingBuildingId: startingBuilding,
+        startingLevelId: startingLevel,
+        startingLat: startingLatitude,
+        startingLon: startingLongitude,
+        endingBuildingId: endingBuilding,
+        endingLevelId: endingLevel,
+        endingLat: endingLatitude,
+        endingLon: endingLongitude,
+      });
+      gameInstance.SendMessage('Ambiarc', 'GetDirections', json);
+    };
+    this.clearDirections = function() {
+      gameInstance.SendMessage('Ambiarc', 'ClearDirections');
+    };
+    this.UpdateHandicapLevel = function(handicapLevel) {
+      gameInstance.SendMessage('Ambiarc', 'UpdateHandicapLevel', handicapLevel);
     };
     this.SmoothUpdateMapLabelPosition = function(mapLabelId, latitude, longitude, duration) {
       var json = JSON.stringify({
@@ -227,7 +271,56 @@
     };
     this.loadEmbeddedPOIs = function() {
       gameInstance.SendMessage('Ambiarc', 'LoadEmbeddedPOIs');
-    }
+    };
+    this.focusOnLatLonAndZoomToHeight = function (buildingId, floorId, lat, lon, heightAboveFloor) {
+    var json = JSON.stringify({
+        buildingId: buildingId,
+        floorId: floorId,
+        lat: lat,
+    lon: lon,
+    heightAboveFloor: heightAboveFloor
+      });
+      gameInstance.SendMessage('Ambiarc', 'FocusOnLatLonAndZoomToHeight', json);
+  };
+
+      this.hideMapLabelGroup = function(mapLabelIds, immediate) {
+      var json = JSON.stringify({
+        mapLabelIds: mapLabelIds,
+        immediate: immediate
+      });
+      gameInstance.SendMessage('Ambiarc', 'HideMapLabels', json);
+    };
+    this.showMapLabelGroup = function(mapLabelIds, immediate) {
+      var json = JSON.stringify({
+        mapLabelIds: mapLabelIds,
+        immediate: immediate
+      });
+      gameInstance.SendMessage('Ambiarc', 'ShowMapLabels', json);
+    };
+    this.EnableAutoShowPOIsOnFloorEnter = function() {
+
+      gameInstance.SendMessage('Ambiarc', 'EnableAutoShowPOIsOnFloorEnter');
+    };
+    this.DisableAutoShowPOIsOnFloorEnter = function() {
+
+      gameInstance.SendMessage('Ambiarc', 'DisableAutoShowPOIsOnFloorEnter');
+    };
+
+    this.ShowTooltipForMapLabel = function(mapLabelId) {
+      var json = JSON.stringify({
+        mapLabelId: mapLabelId,
+      });
+      gameInstance.SendMessage('Ambiarc', 'ShowTooltipForMapLabel', json);
+    };
+
+
+    this.EnterOverheadCamera = function() {
+      gameInstance.SendMessage('Ambiarc', 'EnterOverheadCamera');
+    };
+
+    this.ExitOverheadCamera = function() {
+      gameInstance.SendMessage('Ambiarc', 'ExitOverheadCamera');
+    };
 
     this.loadRemoteMapLabels = function(url, options) {
       return fetch(url, options)
