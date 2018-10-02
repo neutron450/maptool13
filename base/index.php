@@ -71,6 +71,7 @@
         <div class="separate-block row buttons_row">
 		  <select class="menu-buildings">
 			<option class="bldg-opts" value="">:: Select Building ::</option>
+			<option class="bldg-opts" value="Exterior">-- Reset Map --</option>
 
 			<?php echo $obj->createBuildingAndFloorMenu(); ?>
 
@@ -342,12 +343,12 @@
         <div class="row panel-body-row poi-details-panel invisible">
             <div class="panel-body panel panel-default poi-container">
 
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-sm form-group">
                         <label class="poi-details-labelId">POI ID: </label>
                         <label id="poi-id" class="poi-details-id"></label>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="row">
                     <div class="col-sm form-group">
@@ -366,16 +367,14 @@
                                 <option value="IconWithText">Text + Icon</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="row">
                         <div class="form-group col-sm-6">
                             <label class="poi-details-label">Font Size</label>
                             <input id="poi-font-size" type="text" class="poi-details-input form-control"/>
                         </div>
                     </div>
 
-                    <div id="select-icon-group" class="panel-group">
+                    <!--<div id="select-icon-group" class="panel-group">
                         <div class="row">
                             <div id="poi-select-icon" class="form-inline input-group col-sm-8">
                                 <div class="col-sm-3">
@@ -404,11 +403,12 @@
                             <input type="file" id="icon-file-hidden" class="custom-file-input">
                         </div>
 
-                    </div>
+                    </div>-->
                 </div>
 
                 <div class="panel-group">
-                    <div class="row">
+
+                    <!--<div class="row">
                         <div class="form-group col-sm-6">
                             <label class="poi-details-label">Building ID</label>
                             <select id="poi-bulding-id" type="text" class="poi-details-input form-control"></select>
@@ -416,7 +416,7 @@
                         <div id="poi-floor-lists" class="form-group col-sm-6">
                             <label class="poi-details-label">Floor ID</label>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="form-group col-sm-6">
@@ -467,13 +467,13 @@
                         <ul id="poi-key-value-list"></ul>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-4">
                             <div id="poi-add-pair" class="btn btn-default btn-primary">
                                 Add New Pair
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 
                 <div class="row last-row">
@@ -486,11 +486,12 @@
                     </div>
                 </div>
 
-                <div class="row" id="delete-point-section">
+                <!--<div class="row" id="delete-point-section">
                     <div id="poi-delete" class="col-sm-4 btn btn-danger center-block">
                         Delete POI
                     </div>
-                </div>
+                </div>-->
+
             </div>
         </div>
 

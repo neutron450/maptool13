@@ -15,7 +15,7 @@
                 "colorHex": "#FFFFFF00"
             }, {
                 "category": "Stairs",
-                "colorHex": "#FFFFFF00"
+                "colorHex": "#FFFF0000"
             }, {
                 "category": "Escalator",
                 "colorHex": "#FFFFFF00"

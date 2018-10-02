@@ -1764,7 +1764,9 @@ var postJsonToApi = function() {
 		return false;
 	}
 
+	console.log('postJsonToApi +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
 	console.log(ambiarc.poiList[currentLabelId]);
+
 
 	$.ajax({
 		type: "POST",

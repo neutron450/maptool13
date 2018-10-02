@@ -15,10 +15,14 @@
                 "colorHex": "#FFFFFF00"
             }, {
                 "category": "Stairs",
-                "colorHex": "#FFFFFF00"
+                ///"colorHex": "#FFFFFF00"
+                "colorHex": "#FFFF0000"
+            }, {
+                "category": "Elevator",
+                "colorHex": "#FF990000"
             }, {
                 "category": "Escalator",
-                "colorHex": "#FFFFFF00"
+                "colorHex": "#FFFF0000"
             }, {
                 "category": "Ramp",
                 "colorHex": "#FFFFFF00"
