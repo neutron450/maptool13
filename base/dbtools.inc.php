@@ -91,6 +91,10 @@ class DbTools {
 			if ($rows[0]['id']) {
 				foreach($rows as $field=>$record) {
 
+					if (trim($record['bldg_abbre']) == 'SG') {
+					//	$record['gk_floor_id'] = '8888';
+					}
+
 					if (trim($record['bldg_name']) == 'HIGGINS') {
 						$record['bldg_name'] = 'Higgins Hall';
 					}

@@ -761,20 +761,47 @@ var addElementToPoiList = function(mapLabelId, mapLabelName, mapLabelInfo, times
 
         fillDetails(mapLabelInfo);
 
-        if($(this).find('.list-poi-floor').html() == ''){
+        if($(this).find('.list-poi-label').html() == 'Sculpture'){
 
-        	console.log('100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 ');
-        	console.log('floor not found');
+			console.log(item);
 
-            ambiarc.focusOnMapLabel(mapLabelId, 100);
-        }
-        else {
+			var htmlId = $(this).find('.list-poi-id').html();
+			var htmlArr = htmlId.split(' ');
 
-        	console.log('200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 ');
-        	console.log($(this).find('.list-poi-floor').html());
-        	//alert('stop');
+			console.log(htmlArr);
 
-            ambiarc.focusOnMapLabel(mapLabelId, 200);
+			var mapLabelInfo = ambiarc.poiList[htmlArr[1]];
+
+			console.log(mapLabelInfo);
+
+			ambiarc.focusOnLatLonAndZoomToHeight('', '', mapLabelInfo.latitude, mapLabelInfo.longitude, '85');
+
+			hideInactivePoints();
+
+			if (ambiarc.showMapLabel(htmlArr[1], true)) {
+				//return true;
+			}
+
+			//return true;
+
+		} else {
+
+			if($(this).find('.list-poi-floor').html() == ''){
+
+				console.log('100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 ');
+				console.log('floor not found');
+
+				ambiarc.focusOnMapLabel(mapLabelId, 100);
+			}
+			else {
+
+				console.log('200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 ');
+				console.log($(this).find('.list-poi-floor').html());
+				//alert('stop');
+
+				ambiarc.focusOnMapLabel(mapLabelId, 200);
+			}
+
         }
 
         // showPoiDetails();
@@ -1275,6 +1302,13 @@ var cameraCompletedHandler = function(event){
         showPoiDetails();
         visibilityHandler();
     }
+
+    /// focus for Sculptures
+    else if(event.detail == 'UNTRACKED_AMBIARC_EVENT_ZoomCamera'){
+        showPoiDetails();
+        //visibilityHandler();
+    }
+
 };
 
 // hiding all icons on selected floor until animation completes

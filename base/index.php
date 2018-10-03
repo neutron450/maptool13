@@ -11,7 +11,7 @@
 		if ($obj->checkToken($_SESSION['token'])) {
 			//is okay
 		} else {
-			echo 'no token';
+			//echo 'no token';
 		}
 	}
 ?>
