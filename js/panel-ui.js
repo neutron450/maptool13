@@ -524,6 +524,28 @@ var onAmbiarcLoaded = function() {
     ambiarc = $("#ambiarcIframe")[0].contentWindow.Ambiarc;
     ambiarc.poiList = {};
 
+
+
+
+    ambiarc.getAllBuildings(function(buildingsArray){
+      buildingsArray.forEach(function(bldgID, i){
+        ambiarc.getBuildingLabelID(bldgID, function(id){
+          var poiObject = {};
+          poiObject.label = "  ";
+          poiObject.type = "Text"
+          poiObject.location = "URL"
+          poiObject.partialPath = "/iconsz/ic_expand.png"
+          poiObject.collapsedIconPartialPath = "/iconsz/ic_expand.png"
+          poiObject.collapsedIconLocation = "URL"
+          poiObject.ignoreCollision = false;
+          ambiarc.updateMapLabel(id, ambiarc.mapLabel.Icon, poiObject);
+        });
+      });
+    });
+
+
+
+
     fillBuildingsList();
     $('#bootstrap').removeAttr('hidden');
     $('.version-num').removeAttr('hidden');
@@ -694,6 +716,11 @@ var listPoiClosed = function(mapLabelId) {
 // adds a POI to the HTML list
 var addElementToPoiList = function(mapLabelId, mapLabelName, mapLabelInfo, timestamp) {
 
+	// 	var label = $(this).find('.list-poi-label').html();
+	// 	if (label == 'ignore') {
+	// 		return true;
+	// 	}
+
     if(Object.keys(ambiarc.poiList).length > 0){
         $('.init-poi-text').hide();
         $('.sorting-section').show();
@@ -743,14 +770,29 @@ var addElementToPoiList = function(mapLabelId, mapLabelName, mapLabelInfo, times
         }
     }
 
+    //40.690353
+
+    console.log(mapLabelInfo);
+    console.log(mapLabelInfo.latitude);
+    var lat = mapLabelInfo.latitude.toString();
+    console.log(lat.length);
+
+    if (lat.length > 13) {
+    	$(item).css({'background-color':'#cfc'});
+    	var done = 'DONE';
+    } else {
+    	$(item).css({'background-color':'#fc9'});
+    	var done = '';
+    }
+
     $(item).find('.list-poi-icon').css('background-image','url(\''+iconSrc+'\')');
     $(item).find('.list-poi-icon').addClass('poi-icon');
+    $(item).find('.list-poi-sculpture').html(mapLabelInfo.gkArtName + ' :: ' + mapLabelInfo.gkArtist);
     $(item).find('.list-poi-label').html(mapLabelName);
     $(item).find('.list-poi-bldg').html(bldg);
     $(item).find('.list-poi-floor').html(floorNum);
     $(item).find('.list-poi-id').html('ID '+ labelId);
     $(item).find('.list-poi-dtime').html('Added <span date-timestamp="'+timestamp+'" class="addedDate">'+fullDate+'</span> at '+fullTime);
-
 
     //setting list item click handler
     $(item).on('click', function(){
@@ -761,7 +803,15 @@ var addElementToPoiList = function(mapLabelId, mapLabelName, mapLabelInfo, times
 
         fillDetails(mapLabelInfo);
 
-        if($(this).find('.list-poi-label').html() == 'Sculpture'){
+		var label = $(this).find('.list-poi-label').html();
+
+		if (label.indexOf('Sculpture') != -1 || label.indexOf('Safety Booth') != -1) {
+			var outdoor = true;
+		} else {
+			var outdoor = false;
+		}
+
+        if(outdoor){
 
 			console.log(item);
 

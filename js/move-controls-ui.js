@@ -25,7 +25,7 @@ var zoomOutHandler = function(e){
     mouseDown = true;
     ///ambiarc.zoomCamera(-0.2, 0.5);
     console.log('zoom out');
-    ambiarc.zoomCamera(-5, 0.5);
+    ambiarc.zoomCamera(-0.2, 0.5);
 };
 
 

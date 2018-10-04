@@ -617,6 +617,7 @@
             <span class="glyphicon list-poi-icon"></span>
         </div>
         <div class="col-sm">
+            <label class="list-poi-sculpture"></label>
             <label class="list-poi-label"></label>
             <span class="list-poi-bldg"></span>
             <span class="list-poi-floor"></span>
