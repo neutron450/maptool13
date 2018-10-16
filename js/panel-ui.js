@@ -120,7 +120,8 @@ $(document).ready(function() {
     //PANEL ELEMENTS HANDLERS
 
     ///$('#bldg-floor-select').on('change', function(){
-    $(document).on("change", "select.menu-buildings", function(e){
+    //$(document).on("change", "select.menu-buildings", function(e){
+    $(document).on("click", "button.search", function(e){
 
         if($(this).val() == 'Exterior'){
             ambiarc.exitBuilding();
@@ -135,8 +136,6 @@ $(document).ready(function() {
 
         ambiarc.focusOnFloor(buildingId, floorId, 300);
 
-
-
         /// pull points from api
         setTimeout(function(){
 			destroyAllLabels();
@@ -144,8 +143,6 @@ $(document).ready(function() {
 			window.floor = floorId;
 			pullDataFromApi();
 		},1);
-
-
 
     });
 
@@ -509,9 +506,16 @@ var onAmbiarcLoaded = function() {
     ambiarc.registerForEvent(ambiarc.eventLabel.StartedLoadingMap, mapStartedLoading);
     ambiarc.registerForEvent(ambiarc.eventLabel.FinishedLoadingMap, mapFinishedLoading);
 
-    var mapFolder = getMapName('map');
-    ambiarc.setMapAssetBundleURL('https://s3-us-west-1.amazonaws.com/gk-web-demo/ambiarc/');
-    ambiarc.loadMap(mapFolder);
+    //var mapFolder = getMapName('map');
+    //ambiarc.setMapAssetBundleURL('https://s3-us-west-1.amazonaws.com/gk-web-demo/ambiarc/');
+    //ambiarc.loadMap(mapFolder);
+
+    var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '')+(window.location.pathname ? window.location.pathname.substring(0,window.location.pathname.lastIndexOf("/")) : '');
+
+    ambiarc.setMapAssetBundleURL(full+'/ambiarc/');
+
+    ambiarc.loadMap("pratt");
+
 
 };
 
@@ -1801,7 +1805,7 @@ var pullDataFromApi = function () {
 	// 		return true;
 	// 	}
 
-	// alert(building);
+	//alert(floor);
 
 	$.ajax({
 		//url: "http://local.facilities.com/facilities/get",
@@ -1809,7 +1813,8 @@ var pullDataFromApi = function () {
 		data: {
 			token: document.token,
 			webapp: 'manage',
-			limit: '9999',
+			limit: '10',
+			match: $('input.match').val(),
 			//building: $.urlParam('building')
 			//building: building
 			floor: floor
@@ -1817,6 +1822,10 @@ var pullDataFromApi = function () {
 		type: "GET",
 		//beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},
 		success: function(ret) {
+
+			//console.log(ret)
+			//alert(ret);
+
 			try {
 				console.log(ret);
 				fillGeoData(ret);

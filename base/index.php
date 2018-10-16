@@ -74,6 +74,8 @@
 			<option class="bldg-opts" value="Exterior">-- Reset Map --</option>
 
 			<?php echo $obj->createBuildingAndFloorMenu(); ?>
+			<input type="text" name="match" class="match"> <button class="search btn btn-info">search</button>
+
 
 		  </select>
 		</div>
