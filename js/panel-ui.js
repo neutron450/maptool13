@@ -123,13 +123,15 @@ $(document).ready(function() {
     //$(document).on("change", "select.menu-buildings", function(e){
     $(document).on("click", "button.search", function(e){
 
-        if($(this).val() == 'Exterior'){
+    	var menu = $('select.menu-buildings').val();
+
+        if(menu == 'Exterior'){
             ambiarc.exitBuilding();
             return;
         }
 
         ///var parsedValue = $(this).val().split('::');
-        var parsedValue = this.value.split('@');
+        var parsedValue = menu.split('@');
 
         var buildingId = parsedValue[0];
         var floorId = parsedValue[1];
@@ -1779,6 +1781,8 @@ var importFileHandler = function(evt){
 /// ian's hacks
 var pullDataFromApi = function () {
 
+	//ambiarc.EnterOverheadCamera();
+
 	//alert(document.token);
 
 	var hei = $('div.panel-body').height();
@@ -1932,6 +1936,16 @@ var repositionLabel = function(){
     ambiarc.getMapPositionAtCursor(ambiarc.coordType.gps, (latlon) => {
 
     	console.log(latlon);
+
+    	// -73.96308135986328 --
+    	// -73.96293135986328
+
+    	var old = latlon.lon;
+
+    	latlon.lat = parseFloat(latlon.lat) + parseFloat(.0002) ; // -south  +north
+    	latlon.lon = parseFloat(latlon.lon) + parseFloat(.000015) ; // -west   +east
+
+    	console.log(old + ' -- ' + latlon.lon);
 
         var latitude = parseFloat(latlon.lat);
         var longitude = parseFloat(latlon.lon);

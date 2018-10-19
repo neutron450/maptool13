@@ -34,9 +34,9 @@
     <script src="../TemplateData_bak/js/bootstrap-colorpicker.js"></script>
 
     <link rel="stylesheet" media="all" href="../TemplateData_bak/css/bootstrap.min.css"/>
-    <link rel="stylesheet" media="all" href="../css/demo-ui.css?nc=<?php echo time() ?>"/>
-    <link rel="stylesheet" media="all" href="../css/panel.css?nc=<?php echo time() ?>"/>
-    <link rel="stylesheet" media="all" href="../css/icons.css?nc=<?php echo time() ?>"/>
+    <link rel="stylesheet" media="all" href="../css/demo-ui.css"/>
+    <link rel="stylesheet" media="all" href="../css/panel.css"/>
+    <link rel="stylesheet" media="all" href="../css/icons.css"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -56,12 +56,6 @@
     		right: 0px;
     	}
 
-    	.search-panel {
-       		/*position: absolute;
-    		top: 10px;
-    		left: 10px;*/
-    	}
-
     </style>
 
 </head>
@@ -74,14 +68,42 @@
 
     <div class="panel-section invisible">
 
-        <div class="separate-block row buttons_row search-panel">
+        <div class="separate-block row buttons_row">
 		  <select class="menu-buildings">
 			<option class="bldg-opts" value="">:: Select Building ::</option>
 			<option class="bldg-opts" value="Exterior">-- Reset Map --</option>
+
 			<?php echo $obj->createBuildingAndFloorMenu(); ?>
 			<input type="text" name="match" class="match"> <button class="search btn btn-info">search</button>
+
+
 		  </select>
 		</div>
+
+        <!--<div class="separate-block row buttons_row">
+            <div id="import-btn" class="col-sm imp-exp-btn">
+                Import
+            </div>
+            <input type="file" id="import-file" class="import-poi-file">
+
+            <div id="export-btn" class="col-sm imp-exp-btn">
+                Export
+            </div>
+
+            <div id="new-scene-btn" class="col-sm imp-exp-btn" data-toggle="modal" data-target="#exampleModal">
+                New Scene
+            </div>
+        </div>
+
+        <div class="separate-block row buttons_row">
+            <div class="col-sm imp-exp-btn map_view">
+                Map view
+            </div>
+
+            <div class="col-sm imp-exp-btn select_wrapper" style="pointer-events: all">
+                <select id="bldg-floor-select"></select>
+            </div>
+        </div>-->
 
         <!-- main panel -->
         <div id="main-panel" class="separate-block row poi-list-panel" style="pointer-events: all">
@@ -165,7 +187,130 @@
                     </div>
                 </div>
 
+                <ul id="custom-theme-list" class="list-group invisible">
 
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="1" data-key="Wall">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Wall</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="2" data-key="Room">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Room</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="3" data-key="Restroom">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Restroom</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="4" data-key="Walkway">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Walkway</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="5" data-key="Stairs">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Stair</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="6" data-key="Elevator">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Elevator</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="7" data-key="Escalator">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Escalator</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="8" data-key="Ramp">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Ramp</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="9" data-key="Non-Public">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Non-Public</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="9" data-key="Non-Public">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Sky Color</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg env_top_colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="custom-theme-list row colorpicker-element" data-colorpicker-id="9" data-key="Non-Public">
+                        <div class="form-group">
+                            <p class="col-sm-4 col-form-label">Ground Color</p>
+                            <div class="input-group colorpicker-component colorpicker_field col-sm-8"
+                                 title="Using horizontal option">
+                                <input type="text" class="form-control input-lg env_bottom_colorpicker_value" value="#01abba"/>
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
             </div>
         </div>
 
@@ -353,7 +498,113 @@
         </div>
 
         <!-- icons panel -->
+        <div id="icons-panel" class="separate-block row icons-list-panel invisible" style="pointer-events: all">
 
+            <div id="icons-list-header" class="row">
+
+                <div class="col-sm-6">
+                    <div id="save-icon-select" class="header-button btn btn-success col-10">Save</div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="cancel-icon-select" class="header-button col-10 btn btn-basic">Cancel</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row panel-body-row icons-list-panel invisible">
+            <div class="panel-body panel panel-default icons-container">
+                <div class="row">
+                    <div class="col-sm-4"><img data-image="Baggage" class="icon-sample "
+                                               src="../css/icons/ic_admin_baggage.png"></div>
+                    <div class="col-sm-4"><img data-image="Bicycle" class="icon-sample"
+                                               src="../css/icons/ic_admin_bicycle.png"></div>
+                    <div class="col-sm-4"><img data-image="Boat" class="icon-sample"
+                                               src="../css/icons/ic_admin_boat.png"></div>
+                    <div class="col-sm-4"><img data-image="Bus" class="icon-sample" src="../css/icons/ic_admin_bus.png">
+                    </div>
+                    <div class="col-sm-4"><img data-image="Camera" class="icon-sample"
+                                               src="../css/icons/ic_admin_camera.png"></div>
+                    <div class="col-sm-4"><img data-image="Campsite" class="icon-sample"
+                                               src="../css/icons/ic_admin_campsite.png"></div>
+                    <div class="col-sm-4"><img data-image="Charging" class="icon-sample"
+                                               src="../css/icons/ic_admin_charging.png"></div>
+                    <div class="col-sm-4"><img data-image="Coat Check" class="icon-sample"
+                                               src="../css/icons/ic_admin_coat_check.png"></div>
+                    <div class="col-sm-4"><img data-image="Currency Exchange" class="icon-sample"
+                                               src="../css/icons/ic_admin_currency_exchange.png"></div>
+                    <div class="col-sm-4"><img data-image="ATM" class="icon-sample"
+                                               src="../css/icons/ic_admin_dollar.png"></div>
+                    <!--<div class="col-sm-4"><img data-image=" " class="icon-sample" src="../css/icons/ic_admin_elevator_down.png"></div>-->
+                    <!--<div class="col-sm-4"><img data-image=" " class="icon-sample" src="../css/icons/ic_admin_elevator_up.png"></div>-->
+                    <!--<div class="col-sm-4"><img data-image=" " class="icon-sample" src="../css/icons/ic_admin_elevator_v1.png"></div>-->
+                    <div class="col-sm-4"><img data-image="Elevator" class="icon-sample"
+                                               src="../css/icons/ic_admin_elevator_v2.png"></div>
+                    <div class="col-sm-4"><img data-image="Entrance" class="icon-sample"
+                                               src="../css/icons/ic_admin_entrance.png"></div>
+                    <div class="col-sm-4"><img data-image="Escalator" class="icon-sample"
+                                               src="../css/icons/ic_admin_escalator.png"></div>
+                    <div class="col-sm-4"><img data-image="Exit" class="icon-sample"
+                                               src="../css/icons/ic_admin_exit.png"></div>
+                    <div class="col-sm-4"><img data-image="Food" class="icon-sample"
+                                               src="../css/icons/ic_admin_food.png"></div>
+                    <div class="col-sm-4"><img data-image="Gas" class="icon-sample"
+                                               src="../css/icons/ic_admin_gasoline.png"></div>
+                    <div class="col-sm-4"><img data-image="Shop" class="icon-sample"
+                                               src="../css/icons/ic_admin_gift.png"></div>
+                    <div class="col-sm-4"><img data-image="Hair" class="icon-sample"
+                                               src="../css/icons/ic_admin_hair.png"></div>
+                    <div class="col-sm-4"><img data-image="Hiking" class="icon-sample"
+                                               src="../css/icons/ic_admin_hiking.png"></div>
+                    <div class="col-sm-4"><img data-image="Information" class="icon-sample"
+                                               src="../css/icons/ic_admin_info_v1.png"></div>
+                    <div class="col-sm-4"><img data-image="Information" class="icon-sample selected-icon"
+                                               src="../css/icons/ic_admin_info_v2.png"></div>
+                    <div class="col-sm-4"><img data-image="Mail" class="icon-sample"
+                                               src="../css/icons/ic_admin_mail.png"></div>
+                    <div class="col-sm-4"><img data-image="Meditation" class="icon-sample"
+                                               src="../css/icons/ic_admin_meditation.png"></div>
+                    <div class="col-sm-4"><img data-image="Mothers Room" class="icon-sample"
+                                               src="../css/icons/ic_admin_mothers_room.png"></div>
+                    <div class="col-sm-4"><img data-image="Parking" class="icon-sample"
+                                               src="../css/icons/ic_admin_parking.png"></div>
+                    <div class="col-sm-4"><img data-image="Question" class="icon-sample"
+                                               src="../css/icons/ic_admin_question.png"></div>
+                    <div class="col-sm-4"><img data-image="Restroom" class="icon-sample"
+                                               src="../css/icons/ic_admin_restroom_all.png"></div>
+                    <div class="col-sm-4"><img data-image="Restroom Mens" class="icon-sample"
+                                               src="../css/icons/ic_admin_restroom_mens.png"></div>
+                    <div class="col-sm-4"><img data-image="Restroom Womens" class="icon-sample"
+                                               src="../css/icons/ic_admin_restroom_womens.png"></div>
+                    <div class="col-sm-4"><img data-image="Stairs" class="icon-sample"
+                                               src="../css/icons/ic_admin_stairs.png"></div>
+                    <div class="col-sm-4"><img data-image="Star" class="icon-sample"
+                                               src="../css/icons/ic_admin_star.png"></div>
+                    <div class="col-sm-4"><img data-image="Table" class="icon-sample"
+                                               src="../css/icons/ic_admin_table.png"></div>
+                    <div class="col-sm-4"><img data-image="Telephone" class="icon-sample"
+                                               src="../css/icons/ic_admin_telephone.png"></div>
+                    <div class="col-sm-4"><img data-image="Theater" class="icon-sample"
+                                               src="../css/icons/ic_admin_theater_v1.png"></div>
+                    <div class="col-sm-4"><img data-image="Baggage" class="icon-sample"
+                                               src="../css/icons/ic_admin_theater_v2.png"></div>
+                    <div class="col-sm-4"><img data-image="Tickets" class="icon-sample"
+                                               src="../css/icons/ic_admin_tickets.png"></div>
+                    <div class="col-sm-4"><img data-image="Walkway" class="icon-sample"
+                                               src="../css/icons/ic_admin_walkway.png"></div>
+                    <div class="col-sm-4"><img data-image="Water" class="icon-sample"
+                                               src="../css/icons/ic_admin_water.png"></div>
+                    <div class="col-sm-4"><img data-image="Artwork" class="icon-sample"
+                                               src="../css/icons/ic_artwork.png"></div>
+                    <div class="col-sm-4"><img data-image="Building" class="icon-sample"
+                                               src="../css/icons/ic_building.png"></div>
+                    <div class="col-sm-4"><img data-image="Closed" class="icon-sample" src="../css/icons/ic_closed.png">
+                    </div>
+                    <div class="col-sm-4"><img data-image="Dog" class="icon-sample" src="../css/icons/ic_dog.png"></div>
+
+                </div>
+            </div>
+        </div>
     </div>
     <div id="bootstrap" hidden></div>
     <div class="version-num" hidden>
@@ -417,7 +668,28 @@
     </div>
 </div>
 
-
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Clear Map Data?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                All of this map's label, icon, and theme data will be cleared permanently.
+                If you would like to save this map and all of it's data, please make sure you have exported it first.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary confirm-delete-scene">New Scene</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 
