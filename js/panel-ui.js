@@ -562,6 +562,9 @@ var onAmbiarcLoaded = function() {
         e.preventDefault();
     });
     ambiarc.hideLoadingScreen();
+
+    ambiarc.EnterOverheadCamera();
+
   }
 
 // creates the right-click menu over the map
@@ -791,9 +794,22 @@ var addElementToPoiList = function(mapLabelId, mapLabelName, mapLabelInfo, times
     	var done = '';
     }
 
+    if (typeof mapLabelInfo.gkArtName != 'undefined') {
+    	var extraStuff = mapLabelInfo.gkArtName + ' :: ' + mapLabelInfo.gkArtist;
+    } else {
+    	var extraStuff = mapLabelInfo.gkDepartment;
+    }
+
     $(item).find('.list-poi-icon').css('background-image','url(\''+iconSrc+'\')');
     $(item).find('.list-poi-icon').addClass('poi-icon');
-    $(item).find('.list-poi-sculpture').html(mapLabelInfo.gkArtName + ' :: ' + mapLabelInfo.gkArtist);
+
+
+    $(item).find('.list-poi-recordid').html(mapLabelInfo.recordId);
+    $(item).find('.list-poi-extra').html(extraStuff);
+    $(item).find('.list-poi-roomnoold').html(mapLabelInfo.roomNo);
+    $(item).find('.list-poi-roomnonew').html(mapLabelInfo.newRoomNo);
+
+
     $(item).find('.list-poi-label').html(mapLabelName);
     $(item).find('.list-poi-bldg').html(bldg);
     $(item).find('.list-poi-floor').html(floorNum);
@@ -1318,6 +1334,8 @@ var cameraCompletedHandler = function(event){
     console.log("cameraCompletedHandler ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     console.log(event);
 
+    ambiarc.EnterOverheadCamera();
+
     //alert(currentBuildingId + ' -- ' + currentFloorId);
 
 	if (typeof currentBuildingId == 'undefined' || typeof currentFloorId == 'undefined') {
@@ -1781,8 +1799,6 @@ var importFileHandler = function(evt){
 /// ian's hacks
 var pullDataFromApi = function () {
 
-	//ambiarc.EnterOverheadCamera();
-
 	//alert(document.token);
 
 	var hei = $('div.panel-body').height();
@@ -1817,7 +1833,7 @@ var pullDataFromApi = function () {
 		data: {
 			token: document.token,
 			webapp: 'manage',
-			limit: '10',
+			limit: '1000',
 			match: $('input.match').val(),
 			//building: $.urlParam('building')
 			//building: building
@@ -1942,16 +1958,22 @@ var repositionLabel = function(){
 
     	var old = latlon.lon;
 
-    	latlon.lat = parseFloat(latlon.lat) + parseFloat(.0002) ; // -south  +north
-    	latlon.lon = parseFloat(latlon.lon) + parseFloat(.000015) ; // -west   +east
+///    	latlon.lat = parseFloat(latlon.lat) + parseFloat(.00012) ; // -south  +north
+///   	latlon.lon = parseFloat(latlon.lon) + parseFloat(.000095) ; // -west   +east
+
+    	//latlon.lat = parseFloat(latlon.lat) - parseFloat(.00005) ; // -south  +north
+    	//latlon.lon = parseFloat(latlon.lon) + parseFloat(.000095) ; // -west   +east
 
     	console.log(old + ' -- ' + latlon.lon);
 
         var latitude = parseFloat(latlon.lat);
         var longitude = parseFloat(latlon.lon);
 
-        $('#poi-label-latitude').val(parseFloat(toFixed(latlon.lat, 4)));
-        $('#poi-label-longitude').val(parseFloat(toFixed(latlon.lon, 4)));
+        //$('#poi-label-latitude').val(parseFloat(toFixed(latlon.lat, 4)));
+        //$('#poi-label-longitude').val(parseFloat(toFixed(latlon.lon, 4)));
+
+        $('#poi-label-latitude').val(parseFloat(latlon.lat.toFixed(4)));
+        $('#poi-label-longitude').val(parseFloat(latlon.lon.toFixed(4)));
 
         updatePoiDetails(['longitude', 'latitude'], [longitude, latitude]);
         updatePoiDetails('floorId', currentFloorId);

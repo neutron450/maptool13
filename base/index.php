@@ -368,7 +368,10 @@
             <span class="glyphicon list-poi-icon"></span>
         </div>
         <div class="col-sm">
-            <label class="list-poi-sculpture"></label>
+            <label class="list-poi-recordid"></label>
+            <label class="list-poi-extra"></label>
+            <label class="list-poi-roomnoold"></label>
+            <label class="list-poi-roomnonew"></label>
             <label class="list-poi-label"></label>
             <span class="list-poi-bldg"></span>
             <span class="list-poi-floor"></span>
@@ -514,6 +517,9 @@
 	});
 
 	$(document).on('click', '.pull-geo', function(e){
+
+		var ambiarc = $("#ambiarcIframe")[0].contentWindow.Ambiarc;
+		ambiarc.EnterOverheadCamera();
 
 		var geo = document.getElementById("show_geoloc").innerHTML;
 		geo = geo.replace('<br>',':');
