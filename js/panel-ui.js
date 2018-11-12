@@ -143,6 +143,7 @@ $(document).ready(function() {
 			destroyAllLabels();
 			//window.building = this.value;
 			window.floor = floorId;
+			window.abbre = $('select.menu-buildings option:selected').attr('data-abbre');
 			pullDataFromApi();
 		},1);
 
@@ -1825,7 +1826,7 @@ var pullDataFromApi = function () {
 	// 		return true;
 	// 	}
 
-	//alert(floor);
+	//alert(abbre);
 
 	$.ajax({
 		//url: "http://local.facilities.com/facilities/get",
@@ -1835,9 +1836,10 @@ var pullDataFromApi = function () {
 			webapp: 'manage',
 			limit: '1000',
 			match: $('input.match').val(),
-			//building: $.urlParam('building')
-			//building: building
-			floor: floor
+			//building: $.urlParam('building'),
+			//building: building,
+			floor: floor,
+			abbre: abbre
 		},
 		type: "GET",
 		//beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},

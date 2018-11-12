@@ -81,8 +81,8 @@ class DbTools {
 		try {
 			$sql = "
 				select * from facilities
-				group by gk_floor_id
-				order by bldg_name asc, gk_floor_id asc
+				group by gk_floor_id, bldg_abbre
+				order by bldg_name asc, gk_floor_id asc, bldg_abbre asc
 				";
 			$stmt = $this->dbh->prepare($sql);
 			$stmt->execute();
@@ -107,7 +107,7 @@ class DbTools {
 					$record['room_name']	= ucwords(strtolower(trim($record['room_name'])));
 					$record['floor']		= strtolower(trim($record['floor']));
 
-					$menu[$record['bldg_abbre'].$record['gk_bldg_id'].$record['gk_floor_id']] = "<option class=\"bldg-opts\" data-bldg=\"".$record['gk_bldg_id']."\" value=\"".$record['gk_bldg_id']."@".$record['gk_floor_id']."\">".$record['bldg_name']." ".$record['gk_bldg_id']." ::: ".$record['floor']." ".$record['gk_floor_id']." </option>";
+					$menu[$record['bldg_abbre'].$record['gk_bldg_id'].$record['gk_floor_id']] = "<option class=\"bldg-opts\" data-abbre=\"".$record['bldg_abbre']."\" data-bldg=\"".$record['gk_bldg_id']."\" value=\"".$record['gk_bldg_id']."@".$record['gk_floor_id']."\">".$record['bldg_name']." ".$record['gk_bldg_id']." ::: ".$record['floor']." ".$record['gk_floor_id']." </option>";
 
 
 				}
